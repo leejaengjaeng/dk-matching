@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<h1>Home</h1>
+<div>
+    <div th:if="${userName != null}">
+        <div>
+            Current User : <span th:text="${userName}"></span>
+        </div>
+        <div>
+            Roles : <span th:text="${role}"></span>
+        </div>
+        <br><hr>
+        <button>
+            <a href="/anonymous">go anonymous</a>
+        </button>
+        <button>
+            <a href="/a">go role a</a>
+        </button>
+        <button>
+            <a href="/admin">go admin</a>
+        </button>
+        <br><hr>
+    </div>
+    <button>
+        <a href="/auth/login">go login page</a>
+    </button>
+    <button>
+        <a href="/auth/logout">logout</a>
+    </button>
+</div>
+</html>
