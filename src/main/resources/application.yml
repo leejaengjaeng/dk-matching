@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: local
+  messages:
+    encoding: UTF-8
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+  datasource:
+    url: jdbc:mysql://{ip:port}/test?allowMultiQueries=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+    username:
+    password:
+    tomcat:
+      validation-query: select 1;
+      test-while-idle: true
+      test-on-borrow: true
+      driver-class-name: com.mysql.jdbc.Driver
+      init-s-q-l: SET names utf8mb4 COLLATE utf8mb4_unicode_ci
+  thymeleaf:
+    cache: false
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: /mapper/**/*.xml

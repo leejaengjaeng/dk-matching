@@ -12,6 +12,7 @@ buildNumber.properties
 npm-debug.log
 assets/
 classes/
+out/
 
 ### Front-end ###
 package-lock.json
