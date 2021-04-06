@@ -20,10 +20,12 @@ spring:
       test-on-borrow: true
       driver-class-name: com.mysql.jdbc.Driver
       init-s-q-l: SET names utf8mb4 COLLATE utf8mb4_unicode_ci
+  jpa:
+    hibernate :
+      ddl-auto: update
+    show-sql: true
   thymeleaf:
     cache: false
 
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: true
-  mapper-locations: /mapper/**/*.xml
+
+
