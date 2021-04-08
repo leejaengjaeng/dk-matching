@@ -56,7 +56,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
             .headers().disable();
         http.authorizeRequests()
-                .antMatchers("/")
+                .antMatchers("/", "/jpa/**/*")
                 .permitAll()
                 .anyRequest()
                 .fullyAuthenticated()
