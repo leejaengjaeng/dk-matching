@@ -1,0 +1,93 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        table {
+            width: 70%;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: center;
+            border: 1px solid #444444;
+        }
+    </style>
+</head>
+<body>
+    <h1>JPA sample home</h1>
+    <button>
+        <a onclick="window.open('create/person', 'create','width=500px,height=500px')">
+            person create
+        </a>
+    </button>
+    <button>
+        <a onclick="window.open('create/order', 'create','width=500px,height=500px')">
+            order create
+        </a>
+    </button>
+    <button>
+        <a onclick="window.open('create/food', 'create','width=500px,height=500px')">
+            foods create
+        </a>
+    </button>
+    <hr>
+
+    <button>
+        <a href="/jpa/sample/home?type=person" target="_self">person list</a>
+    </button>
+    <button>
+        <a href="/jpa/sample/home?type=order" target="_self">order List</a>
+    </button>
+    <button>
+        <a href="/jpa/sample/home?type=food" target="_self">food List</a>
+    </button>
+    <hr>
+    <input type="hidden" id="menuName" th:value="${menuName}">
+    <div th:if="${menuName != null}">
+        <h1 th:text="${menuName} +  List"></h1>
+        <table class="tb_col">
+            <tr>
+                <th>id</th>
+
+                <th th:if="${menuName != 'order'}">name</th>
+
+                <th th:if="${menuName == 'order'}">orderdPerson</th>
+                <th th:if="${menuName == 'order'}">food</th>
+                <th></th>
+            </tr>
+            <tr th:each="entity : ${entities}">
+                <td th:text="${entity.id}"></td>
+
+                <td th:if="${menuName != 'order'}"
+                    th:text="${entity.name}"></td>
+
+                <td th:if="${menuName == 'order'}">
+                    <span th:text="${entity.orderedPerson}"></span>
+                </td>
+                <td th:if="${menuName == 'order'}">
+                    <span th:text="${entity.food}"></span>
+                </td>
+                <td>
+                    <button th:id="entityId_+${entity.id}"
+                            onclick="deleteRow(this)">삭제</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+    let deleteRow = (el) =>{
+        let id = el.id.split("entityId_")[1];
+        $.ajax({
+            url:'/jpa/api/sample/' + $("#menuName").val() + '/' + id,
+            type: 'delete',
+            success:(data) => {
+                alert("Success");
+                location.reload();
+            },error: (e) => {
+                console.log(e);
+            }
+        });
+    }
+</script>
+</html>

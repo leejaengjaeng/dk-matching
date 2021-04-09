@@ -1,0 +1,85 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+    <h1 th:text="|${menuName} Create|"></h1>
+    <input type="hidden" id="menuName" th:value="${menuName}">
+
+    <table class="tb_col">
+        <tr th:if="${menuName != 'order'}">
+            <th>name</th>
+            <td>
+                <input type="text" id="name">
+            </td>
+        </tr>
+        <tr th:if="${menuName == 'order'}">
+            <th >orderdPerson</th>
+            <td>
+                <select id="orderedPerson">
+                    <option th:each="person : ${persons}"
+                            th:value="${person.id}"
+                            th:utext="${person.name}">
+                    </option>
+                </select>
+            </td>
+        </tr>
+        <tr th:if="${menuName == 'order'}">
+            <th>food</th>
+            <td>
+                <select id="food">
+                    <option th:each="food : ${foods}"
+                            th:value="${food.id}"
+                            th:utext="${food.name}">
+                    </option>
+                </select>
+            </td>
+        </tr>
+        <tr th:if="${menuName == 'order'}">
+            <th>count</th>
+            <td th:if="${menuName == 'order'}">
+                <input type="number" id="count">
+            </td>
+        </tr>
+    </table>
+    <button type="button" onclick="create()">create</button>
+
+    <button>
+        <a onclick="close()">close</a>
+    </button>
+</body>
+</html>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+    const IS_ORDER_CREATE = $("#menuName").val() === "order";
+
+    let close = () => {
+        window.close();
+    };
+
+    let create = () => {
+        let requestData = {};
+
+        if(!IS_ORDER_CREATE) {
+            requestData['name'] = $('#name').val();
+        } else {
+            requestData['count'] = $("#count").val();
+            requestData['food'] = {
+                id:$("#food").val(),
+            };
+            requestData['orderedPerson'] = {
+                id:$("#orderedPerson").val(),
+            };
+        }
+
+        $.ajax({
+            url:'/jpa/api/sample/' + $("#menuName").val(),
+            type: 'post',
+            contentType: "application/json; charset=utf-8;",
+            dataType: "json",
+            data: JSON.stringify(requestData),
+            success:(data) => {
+                alert(JSON.stringify(data));
+                window.open('','_self').close();
+            }
+        });
+    }
+</script>
